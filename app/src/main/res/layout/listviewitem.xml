@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/customListItem"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/itemTitle"
+        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="5dip"
+        android:layout_marginLeft="5dip"
+        android:textSize="18dip"
+        android:textColor="#000000"/>
+
+    <TextView
+        android:id="@+id/itemLink"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemTitle"
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_alignLeft="@+id/itemTitle"
+         android:textColor="#008800"/>
+    <TextView
+        android:id="@+id/itemSnippet"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemLink"
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_alignLeft="@+id/itemLink"
+        android:textSize="15dip" android:layout_marginTop="10dip"
+
+        android:textStyle="italic"/>
+</RelativeLayout>
