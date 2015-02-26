@@ -1,12 +1,10 @@
 package com.projects.pricefinder.entities;
 
-public class Query {
+public class Queries {
     NextPage nextPage;
     Request request;
 
-    public Query(){
-
-    }
+    public Queries(){}
 
     public NextPage getNextPage() {
         return nextPage;

@@ -73,14 +73,13 @@ public class Item {
         this.htmlSnippet = htmlSnippet;
     }
 
-    public List<Metatag> getMetatags() {
-        return metatags;
+
+
+    public Pagemap getPagemap() {
+        return this.pagemap;
     }
 
-    public void setMetatags(List<Metatag> metatags) {
-        this.metatags = metatags;
+    public void setPagemap(Pagemap pagemap) {
+        this.pagemap = pagemap;
     }
-
-
-
 }

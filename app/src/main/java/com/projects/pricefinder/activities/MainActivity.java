@@ -2,6 +2,8 @@ package com.projects.pricefinder.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -9,21 +11,20 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.priefinder.projects.R;
+import com.projects.pricefinder.R;
 import com.projects.pricefinder.entities.Result;
 import com.projects.pricefinder.util.CSEService;
 import com.projects.pricefinder.util.CustomAdapter;
 
 import org.json.JSONException;
-
 import java.io.IOException;
 
-
-public class MainActivity extends Activity  {
+public class MainActivity extends Activity implements AdapterView.OnItemClickListener {
     private ListView resultListView;
     private CSEService cse;
     private Result result;
@@ -44,7 +45,6 @@ public class MainActivity extends Activity  {
         cse = new CSEService(getBaseContext());
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,18 +79,19 @@ public class MainActivity extends Activity  {
     }
 
     protected void updateItemsInUI() {
-        if(0 == result.getItems().size()){
-            Toast.makeText(this, "NOT Found", Toast.LENGTH_SHORT).show();
+        if(result==null || 0 == result.getItems().size()) {
+                Toast.makeText(this, "NOT Found", Toast.LENGTH_SHORT).show();
         }
-        CustomAdapter CustomAdapter = new CustomAdapter(this, result.getItems());
-        resultListView.setAdapter(CustomAdapter);
+        else {
+            CustomAdapter CustomAdapter = new CustomAdapter(this, result.getItems());
+            resultListView.setAdapter(CustomAdapter);
+        }
     }
-
 
     public void onClickSearch(View view) throws IOException, JSONException {
         Thread t = new Thread(){
             public void run(){
-                String keyword=((TextView)findViewById(R.id.txtSearch)).getText().toString();
+                String keyword = ((TextView)findViewById(R.id.txtSearch)).getText().toString();
                 result = searchResult(keyword);
                 handler.post(updateItems);
             }
@@ -104,5 +105,12 @@ public class MainActivity extends Activity  {
     private void hideInputMethod(){
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(((TextView)findViewById(R.id.txtSearch)).getWindowToken(), 0);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(result.getItems().get(arg2).getLink()));
+        startActivity(intent);
     }
 }

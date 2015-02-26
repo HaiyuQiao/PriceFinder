@@ -8,7 +8,7 @@ public class Result {
     Url url;
     String type;
     String template;
-    Query Query;
+    Queries Queries;
     Context context;
     List<Item> items = new ArrayList<Item>();
 
@@ -48,12 +48,12 @@ public class Result {
         this.template = template;
     }
 
-    public Query getQuery() {
-        return Query;
+    public Queries getQueries() {
+        return Queries;
     }
 
-    public void setQuery(Query Query) {
-        this.Query = Query;
+    public void setQueries(Queries Queries) {
+        this.Queries = Queries;
     }
 
     public Context getContext() {

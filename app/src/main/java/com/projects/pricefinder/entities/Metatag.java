@@ -23,7 +23,4 @@ public class Metatag {
     public void setY_key(String yKey) {
         y_key = yKey;
     }
-
-
-
 }

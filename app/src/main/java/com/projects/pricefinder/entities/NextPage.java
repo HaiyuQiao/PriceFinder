@@ -39,8 +39,8 @@ public class NextPage {
         this.searchTerms = searchTerms;
     }
 
-    public Integer getCount() {
-        return count;
+    public Integer getCount(int count) {
+        return this.count;
     }
 
     public void setCount(Integer count) {

@@ -5,31 +5,57 @@
 
     <TextView
         android:id="@+id/itemTitle"
-        android:layout_alignParentTop="true"
-        android:layout_height="wrap_content"
-        android:text="TextView"
         android:layout_width="wrap_content"
-        android:layout_marginTop="5dip"
-        android:layout_marginLeft="5dip"
+        android:layout_height="wrap_content"
+        android:text="itemTitle"
         android:textSize="18dip"
-        android:textColor="#000000"/>
+        android:textColor="#d5222222"
+        android:layout_toRightOf="@+id/relativeLayoutImage"
+        android:layout_toEndOf="@+id/relativeLayoutImage"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="2dp"
+        android:autoText="false" />
 
     <TextView
         android:id="@+id/itemLink"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/itemTitle"
-        android:text="TextView"
         android:layout_width="wrap_content"
-        android:layout_alignLeft="@+id/itemTitle"
-         android:textColor="#008800"/>
+        android:text="itemLink"
+        android:textColor="#008800"
+        android:layout_below="@+id/relativeLayoutImage"
+        android:layout_alignLeft="@+id/itemSnippet"
+        android:layout_alignStart="@+id/itemSnippet"
+        android:layout_marginLeft="2dp" />
     <TextView
         android:id="@+id/itemSnippet"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/itemLink"
-        android:text="TextView"
+        android:text="description"
         android:layout_width="wrap_content"
-        android:layout_alignLeft="@+id/itemLink"
-        android:textSize="15dip" android:layout_marginTop="10dip"
+        android:textSize="15dip"
+        android:layout_below="@+id/itemLink"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="2dp" />
 
-        android:textStyle="italic"/>
+    <RelativeLayout
+        android:id="@+id/relativeLayoutImage"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        android:layout_alignParentTop="true"
+        android:background="#ff0a492c"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="2dp">
+
+        <ImageView
+            android:id="@+id/itemImage"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:maxHeight="50dp"
+            android:maxWidth="50dp"
+            android:minHeight="45dp"
+            android:minWidth="45dp"
+            android:padding="2dp"
+            android:background="#ffffffff"
+            android:layout_margin="1dp" />
+        </RelativeLayout>
 </RelativeLayout>
