@@ -16,11 +16,29 @@ public class Product {
 
     private String name;
     private String price;
+    private String pricecurrency;
     private String supplier;
     private String url;
+    private String imageUrl;
     private String desc;
     private Timestamp dateCreated;
     private boolean interest;
+
+    public String getPricecurrency() {
+        return pricecurrency;
+    }
+
+    public void setPricecurrency(String pricecurrency) {
+        this.pricecurrency = pricecurrency;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public Product() {
         super();

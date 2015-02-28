@@ -8,9 +8,13 @@ package com.projects.pricefinder.entities;
  *  } ]
  */
 public class Product {
-    String name;
+    private String name;
     String model;
     String image;
+
+    public Product() {
+        super();
+    }
 
     public String getName() {
         return this.name;

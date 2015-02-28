@@ -9,9 +9,13 @@ package com.projects.pricefinder.entities;
  *  } ]
  */
 public class Offer {
-    String price;
-    String pricecurrency;
-    String availability;
+    private String price;
+    private String pricecurrency;
+    private String availability;
+
+    public Offer() {
+        super();
+    }
 
     public String getPrice() {
         return this.price;
