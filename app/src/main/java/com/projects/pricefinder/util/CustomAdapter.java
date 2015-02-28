@@ -47,14 +47,18 @@ public class CustomAdapter extends BaseAdapter {
             rowLayout = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.listviewitem, parent, false);
             Item item = (Item) getItem(position);
 
-            TextView itemTitle = (TextView) rowLayout.findViewById(R.id.itemTitle);
-            itemTitle.setText(item.getTitle());
-
-            TextView itemLink = (TextView) rowLayout.findViewById(R.id.itemLink);
+            TextView itemTitle = (TextView) rowLayout.findViewById(R.id.textViewItemTitle);
+            itemTitle.setText(item.getTitle().toString().substring(0,48)+"..");
+            try {
+                TextView itemPrice = (TextView) rowLayout.findViewById(R.id.textViewPrice);
+                itemPrice.setText(item.getPagemap().getOffer().getPrice()+" "+item.getPagemap().getOffer().getPricecurrency());
+            }
+            catch ( Exception e){}
+            TextView itemLink = (TextView) rowLayout.findViewById(R.id.textViewItemLink);
             itemLink.setText(item.getLink());
 
-            TextView itemSnippet = (TextView) rowLayout.findViewById(R.id.itemSnippet);
-            itemSnippet.setText(item.getSnippet());
+            TextView itemSnippet = (TextView) rowLayout.findViewById(R.id.textViewItemSnippet);
+            itemSnippet.setText(item.getSnippet().toString().substring(0,80)+" ..");
 
             ImageView itemImage = (ImageView) rowLayout.findViewById(R.id.itemImage);
             String imageUri;

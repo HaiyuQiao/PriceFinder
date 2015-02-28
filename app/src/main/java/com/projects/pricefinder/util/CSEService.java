@@ -29,6 +29,7 @@ public class CSEService {
     private String API_KEY;
     private String baseUrl;
     private String CX;
+    private static boolean DEBUG = false;
 
     public CSEService(Context ctx){
         API_KEY =  ctx.getString(R.string.CSE_APIKey);
@@ -61,7 +62,6 @@ public class CSEService {
         String responseResult = "";
 
         try {
-
             URL URL =  bundleUrl(keyword.trim());
             HttpURLConnection conn = (HttpURLConnection) (URL).openConnection();
             conn.setRequestMethod("GET");
@@ -74,13 +74,12 @@ public class CSEService {
                 case 201:
                     InputStream inputStream = conn.getInputStream();
                     responseResult = convertStreamToString(inputStream);
-
-                    Log.i("return-object", responseResult);
-                    return deserializeResult(responseResult);
-            }
+                    if(DEBUG) Log.i("return-object", responseResult);
 
             conn.disconnect();
 
+            return deserializeResult(responseResult);
+        }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,8 +117,8 @@ public class CSEService {
             JSONObject jsonObject = new JSONObject(object);
             JSONArray jsonObjectArray = jsonObject.getJSONArray("items");
 
-            for (int j = 0; j < jsonObjectArray.length(); j++) {
-                JSONObject jsonItem = (JSONObject) jsonObjectArray.get(j);
+            for (int i = 0; i < jsonObjectArray.length(); i++) {
+                JSONObject jsonItem = (JSONObject) jsonObjectArray.get(i);
                 Item item = new Item();
                 item.setTitle(jsonItem.getString("title"));
                 item.setHtmlTitle(jsonItem.getString("htmlTitle"));
@@ -130,9 +129,10 @@ public class CSEService {
                 //set pagemap
                 Pagemap pagemap = new Pagemap();
                 JSONObject jsonObjectPagemap = jsonItem.getJSONObject("pagemap");
-                try {
+
+                try { //set cse_thumbnail
                     JSONArray jsonObjectArrayCSE_Thumbnail = jsonObjectPagemap.getJSONArray("cse_thumbnail");
-                    //set cse_thumbnail
+
                     for (int k = 0; k < 1; k++) {//jsonObjectArrayCSE_Thumbnail.length()
 
                         JSONObject jsonItemCSE_thumbnail = (JSONObject) jsonObjectArrayCSE_Thumbnail.get(k);
@@ -145,8 +145,43 @@ public class CSEService {
                     }
                 }
                 catch (JSONException e){
-                    Log.d("CSEService::deserializeResult()","cse_thumbnail not found in the JSON object["+j+"]");
+                    if(DEBUG) Log.d("CSEService::deserializeResult()","cse_thumbnail not found in the JSON object["+0+"]");
                 }
+                //set Offer
+                try {
+                    JSONArray jsonObjectArrayOffer = jsonObjectPagemap.getJSONArray("offer");
+
+                    for (int j = 0; j < 1; j++) {//jsonObjectArrayOffer.length()
+
+                        JSONObject jsonItemOffer = (JSONObject) jsonObjectArrayOffer.get(j);
+                        Offer offer = new Offer();
+                        offer.setPrice(jsonItemOffer.getString("price"));
+                        //offer.setAvailability(jsonItemOffer.getString("availability"));
+                        offer.setPricecurrency(jsonItemOffer.getString("pricecurrency"));
+                        pagemap.setOffer(offer);
+                    }
+                }
+                catch (JSONException e){
+                    if(DEBUG) Log.d("CSEService::deserializeResult()","offer not found in the JSON object["+0+"]");
+                }
+                //set Product
+                try {
+                    JSONArray jsonObjectArrayProduct = jsonObjectPagemap.getJSONArray("product");
+
+                    for (int l = 0; l < 1; l++) {//jsonObjectArrayProduct.length()
+
+                        JSONObject jsonItemProduct = (JSONObject) jsonObjectArrayProduct.get(l);
+                        Product product = new Product();
+                        product.setName(jsonItemProduct.getString("name"));
+                        //product.setModel(jsonItemProduct.getString("model"));
+                        product.setImage(jsonItemProduct.getString("image"));
+                        pagemap.setProduct(product);
+                    }
+                }
+                catch (JSONException e){
+                    if(DEBUG) Log.d("CSEService::deserializeResult()","Product not found in the JSON object["+0+"]");
+                }
+
                 item.setPagemap(pagemap);
                 items.add(item);
             }
@@ -178,7 +213,7 @@ public class CSEService {
                 queries.setNextPage(nextPage);
             }
             JSONArray jsonObjectArrayRequest = jsonObjectQueries.getJSONArray("request");
-            //set nextPage
+            //set request
             for (int count = 0; count < 1; count++) {//jsonObjectArrayRequest.length()
                 JSONObject jsonItem = (JSONObject) jsonObjectArrayRequest.get(count);
                 Request request = new Request();
