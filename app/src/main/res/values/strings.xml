@@ -9,5 +9,11 @@
     <string name="CSE_CX">011347153744255752042:m_oabqmrlys</string>
     <string name="title_activity_product_details">ProductDetails</string>
     <string name="hello_world">Hello world!</string>
+    <string name="scan">Scan</string>
+    <string name="title_activity_main_activity2">MainActivity2</string>
+    <string name="title_activity_map">Map</string>
+    <string name="map">Show in Map</string>
+    <string name="location">location</string>
+    <string name="title_activity_loadmap">loadmap</string>
 
 </resources>
