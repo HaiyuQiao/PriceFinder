@@ -16,11 +16,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
-        android:layout_alignLeft="@+id/btnSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/scan" />
+
         <Button
             android:id="@+id/btnSearch"
             android:layout_width="85dp"
@@ -38,6 +34,16 @@
             android:layout_alignTop="@+id/btnSearch"
             android:layout_toLeftOf="@+id/btnSearch"
             android:layout_toStartOf="@+id/btnSearch" />
+        <Button android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/location"
+            android:layout_below="@+id/txtSearch"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignLeft="@+id/scan_button"
+            android:layout_alignStart="@+id/scan_button" />
+
         <TextView
             android:id="@+id/scan_format"
             android:layout_width="wrap_content"

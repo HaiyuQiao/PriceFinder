@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PF.iml" filepath="$PROJECT_DIR$/PF.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PF_with_Basic_MAP_V_1.0.iml" filepath="$PROJECT_DIR$/PF_with_Basic_MAP_V_1.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/PriceFinder.iml" filepath="$PROJECT_DIR$/PriceFinder.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

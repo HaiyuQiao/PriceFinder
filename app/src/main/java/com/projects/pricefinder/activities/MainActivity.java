@@ -33,6 +33,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     private Result result;
     private Button scanBtn;
     private TextView formatTxt, contentTxt;
+    private Button location;
 
     final Handler handler = new Handler();
     final Runnable updateItems = new Runnable(){
@@ -44,7 +45,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         resultListView = (ListView) findViewById(R.id.resultListView);
         result = new Result();
         cse = new CSEService(getBaseContext());
@@ -52,6 +52,17 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         formatTxt = (TextView)findViewById(R.id.scan_format);
         contentTxt = (TextView)findViewById(R.id.scan_content);
         scanBtn.setOnClickListener(this);
+        location = (Button)findViewById(R.id.location);
+        location.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getBaseContext(),map.class);
+                        startActivity(intent);
+                    }
+                }
+        );
+
 
     }
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
