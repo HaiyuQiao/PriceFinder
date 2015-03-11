@@ -12,10 +12,13 @@ import android.view.View;
 
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.projects.pricefinder.R;
 import com.projects.pricefinder.entities.Result;
 import com.projects.pricefinder.util.CSEService;
@@ -24,10 +27,12 @@ import com.projects.pricefinder.util.CustomAdapter;
 import org.json.JSONException;
 import java.io.IOException;
 
-public class MainActivity extends Activity implements AdapterView.OnItemClickListener {
+public class MainActivity extends Activity implements AdapterView.OnItemClickListener,View.OnClickListener {
     private ListView resultListView;
     private CSEService cse;
     private Result result;
+    private Button scanBtn;
+    private TextView formatTxt, contentTxt;
 
     final Handler handler = new Handler();
     final Runnable updateItems = new Runnable(){
@@ -43,7 +48,25 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         resultListView = (ListView) findViewById(R.id.resultListView);
         result = new Result();
         cse = new CSEService(getBaseContext());
+        scanBtn = (Button)findViewById(R.id.scan_button);
+        formatTxt = (TextView)findViewById(R.id.scan_format);
+        contentTxt = (TextView)findViewById(R.id.scan_content);
+        scanBtn.setOnClickListener(this);
 
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanningResult != null) {
+            String scanContent = scanningResult.getContents();
+            String scanFormat = scanningResult.getFormatName();
+            formatTxt.setText("FORMAT: " + scanFormat);
+            contentTxt.setText("CONTENT: " + scanContent);
+        }
+        else{
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "No scan data received!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     @Override
@@ -80,7 +103,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
     protected void updateItemsInUI() {
         if(result==null || 0 == result.getItems().size()) {
-                Toast.makeText(this, "NOT Found", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "NOT Found", Toast.LENGTH_SHORT).show();
         }
         else {
             CustomAdapter CustomAdapter = new CustomAdapter(this, result.getItems());
@@ -112,5 +135,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(result.getItems().get(arg2).getLink()));
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v.getId()==R.id.scan_button){
+            IntentIntegrator scanIntegrator = new IntentIntegrator(this);
+            scanIntegrator.initiateScan();
+
+        }
     }
 }

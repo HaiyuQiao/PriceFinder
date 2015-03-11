@@ -9,5 +9,5 @@
     <string name="CSE_CX">011347153744255752042:m_oabqmrlys</string>
     <string name="title_activity_product_details">ProductDetails</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="scan">Scan</string>
 </resources>
