@@ -27,17 +27,28 @@
             android:layout_height="wrap_content"
             android:text="@string/btnSearch"
             android:onClick="onClickSearch"
-            android:layout_alignBottom="@+id/txtSearch"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/scan_button"
+            android:layout_toStartOf="@+id/scan_button" />
         <Button android:id="@+id/scan_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:text="@string/scan"
-            android:layout_alignTop="@+id/btnSearch"
-            android:layout_toLeftOf="@+id/btnSearch"
-            android:layout_toStartOf="@+id/btnSearch" />
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/speak"
+            android:layout_toStartOf="@+id/speak" />
+
+
+        <Button android:id="@+id/speak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="speak"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:onClick="speak" />
+
         <TextView
             android:id="@+id/scan_format"
             android:layout_width="wrap_content"
@@ -53,6 +64,8 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/scan_format" />
 
+
+
     </RelativeLayout>
     <ListView
         android:layout_width="match_parent"
@@ -61,4 +74,5 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="false"
         android:layout_below="@+id/relativeLayout" />
+
 </RelativeLayout>
