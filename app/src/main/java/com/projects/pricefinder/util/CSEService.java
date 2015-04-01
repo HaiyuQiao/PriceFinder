@@ -52,17 +52,18 @@ public class CSEService {
      * @return base URL
      * @throws Exception
      */
-    public  URL bundleUrl(String keyword) throws Exception{
+    public  URL bundleUrl(String keyword, int _index) throws Exception{
         return new URL(baseUrl + "?key=" + API_KEY + "&cx=" + CX
+                + "&start="+_index
                 + "&q=" + URLEncoder.encode(keyword)
                 + "&alt=json");
     }
 
-    public synchronized Result Search(String keyword) throws Exception {
+    public synchronized Result Search(String keyword, int _index) throws Exception {
         String responseResult = "";
 
         try {
-            URL URL =  bundleUrl(keyword.trim());
+            URL URL =  bundleUrl(keyword.trim(),_index);
             HttpURLConnection conn = (HttpURLConnection) (URL).openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -77,7 +78,6 @@ public class CSEService {
                     if(DEBUG) Log.i("return-object", responseResult);
 
             conn.disconnect();
-
             return deserializeResult(responseResult);
         }
 

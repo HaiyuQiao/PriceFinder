@@ -155,7 +155,7 @@ public class IntentIntegrator {
     /**
      * @param activity {@link android.app.Activity} invoking the integration
      */
-    public IntentIntegrator(View.OnClickListener activity) {
+    public IntentIntegrator(Activity activity) {
         this.activity = (Activity) activity;
         this.fragment = null;
         initializeConfiguration();
