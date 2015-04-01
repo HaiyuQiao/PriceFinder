@@ -1,0 +1,76 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/customListItem"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/linearLayout">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutImage"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        android:layout_alignParentTop="true"
+        android:background="#ff0a492c"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="2dp">
+
+        <ImageView
+            android:id="@+id/itemImage"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:maxHeight="50dp"
+            android:maxWidth="50dp"
+            android:minHeight="45dp"
+            android:minWidth="45dp"
+            android:padding="2dp"
+            android:background="#ffffffff"
+            android:layout_margin="1dp" />
+
+    </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout2">
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price"
+        android:id="@+id/textViewPrice"
+        android:paddingRight="5dp"
+        android:textColor="#ffff6519"
+        android:textSize="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/linearLayout"
+        android:layout_toEndOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/textViewItemTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="itemTitle"
+        android:textSize="12dip"
+        android:textColor="#f32c5012"
+        android:autoText="false"
+        android:layout_alignBottom="@+id/linearLayout"
+        android:layout_toRightOf="@+id/linearLayout"
+        android:layout_toEndOf="@+id/linearLayout"
+        android:layout_below="@+id/textViewPrice" />
+
+</RelativeLayout>
+<!-- From: file:/D:/WORK/Seneca/CPA/S6/prj666/project/Android/PriceFinder/app/src/main/res/layout/listviewitem.xml -->

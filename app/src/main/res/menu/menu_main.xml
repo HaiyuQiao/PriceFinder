@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    <item android:id="@+id/action_scan" android:title="@string/action_scan"
+        android:orderInCategory="100"   />
+    <item android:id="@+id/action_voice" android:title="@string/action_voice"
+        android:orderInCategory="100"   />
+    <item android:id="@+id/action_sort_by_price" android:title="@string/action_sort_by_price"
+        android:orderInCategory="200"   />
+    <item android:id="@+id/action_sort_by_name" android:title="@string/action_sort_by_name"
+        android:orderInCategory="200"   />
+    <item android:id="@+id/action_my_favorites" android:title="@string/action_my_favorites"
+        android:orderInCategory="300"   />
+
+</menu>

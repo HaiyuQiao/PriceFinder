@@ -1,0 +1,6 @@
+D:\WORK\Seneca\CPA\S6\prj666\project\Android\PriceFinder\app\build\intermediates\classes\debug
+D:\WORK\Seneca\CPA\S6\prj666\project\Android\PriceFinder\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-9506b2b9fbb30ede40c89ccdf4d583b5c4aecfe9.jar
+D:\WORK\Seneca\CPA\S6\prj666\project\Android\PriceFinder\app\build\intermediates\pre-dexed\debug\persistence-api-1.0.2-98020dc68c3ebacaee24773cf99dcaea3d87d14e.jar
+D:\WORK\Seneca\CPA\S6\prj666\project\Android\PriceFinder\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-f10b3bf8667802e0e40c9b60465cc1cb3ba9b056.jar
+D:\WORK\Seneca\CPA\S6\prj666\project\Android\PriceFinder\app\build\intermediates\pre-dexed\debug\classes-c48e9e96ee4e1ccbd1d50fb832c38052b47b754d.jar
+D:\WORK\Seneca\CPA\S6\prj666\project\Android\PriceFinder\app\build\intermediates\pre-dexed\debug\classes-11902e3d6c410475b7b671b0481a06a73b9e2ae3.jar
