@@ -8,6 +8,13 @@
     <string name="CSE_APIKey">AIzaSyAyx1EBa-L3jbFPlJUxe4Q5sDYE8KOEdg4</string>
     <string name="CSE_CX">011347153744255752042:m_oabqmrlys</string>
     <string name="title_activity_product_details">ProductDetails</string>
+    <string name="action_scan">Barcode Scan</string>
+    <string name="action_voice">Voice Search</string>
+    <string name="action_sort_by_price">Sort by Price</string>
+    <string name="action_sort_by_name">Sort by Name</string>
+    <string name="action_my_favorites">My Favorites</string>
+    <string name="btn_load_more">Load more...</string>
+    <string name="title_activity_view_site">ViewSite</string>
     <string name="hello_world">Hello world!</string>
-    <string name="scan">Scan</string>
+
 </resources>
