@@ -6,13 +6,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.RecognizerIntent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,15 +26,18 @@ import com.projects.pricefinder.util.CSEService;
 import com.projects.pricefinder.util.CustomAdapter;
 
 import org.json.JSONException;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends Activity implements AdapterView.OnItemClickListener,View.OnClickListener {
+    private static final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
     private ListView resultListView;
     private CSEService cse;
     private Result result;
     private Button scanBtn;
     private TextView formatTxt, contentTxt;
-
+    private EditText txtResult;
     final Handler handler = new Handler();
     final Runnable updateItems = new Runnable(){
         public void run(){
@@ -44,7 +48,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         resultListView = (ListView) findViewById(R.id.resultListView);
         result = new Result();
         cse = new CSEService(getBaseContext());
@@ -52,22 +55,45 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
         formatTxt = (TextView)findViewById(R.id.scan_format);
         contentTxt = (TextView)findViewById(R.id.scan_content);
         scanBtn.setOnClickListener(this);
-
+        txtResult = (EditText) findViewById(R.id.txtSearch);
+        txtResult.setText("");
     }
+
+
+
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+
         if (scanningResult != null) {
             String scanContent = scanningResult.getContents();
             String scanFormat = scanningResult.getFormatName();
-            formatTxt.setText("FORMAT: " + scanFormat);
-            contentTxt.setText("CONTENT: " + scanContent);
+            txtResult.setText(scanContent);
         }
-        else{
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "No scan data received!", Toast.LENGTH_SHORT);
-            toast.show();
+
+         else  if(resultCode == RESULT_OK) {
+            ArrayList<String> textMatchList = intent
+                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (!textMatchList.isEmpty()) {
+                txtResult.setText( textMatchList.get(0));
+            }
         }
     }
+
+
+
+    public void speak(View view){
+
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getClass()
+                .getPackage().getName());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, txtResult.getText()
+                .toString());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+        startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
