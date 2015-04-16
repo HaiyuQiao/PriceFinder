@@ -3,6 +3,7 @@ package com.projects.pricefinder.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 
 
 import com.projects.pricefinder.models.*;
+import com.projects.pricefinder.util.UPCAPIService;
 
 
 public class MainActivity extends ActionBarActivity  {
@@ -47,10 +49,22 @@ public class MainActivity extends ActionBarActivity  {
     private CustomAdapter customAdapter ;
     private ListView resultListView;
     private CSEService cse;
+    private UPCAPIService upcAS;
+    private UPC upc;
     private Result result;
     private Button btnLoadMore;
     private EditText txtResult;
+    private Menu menuMain;
+    private MenuItem menuItemSortPrice;
+    private MenuItem menuItemSortName;
+
     final Handler handler = new Handler();
+    final Runnable updateUPCKeywordItem = new Runnable(){
+        @Override
+        public void run(){
+            updateUPCKeywordInUI();
+        }
+    };
     final Runnable updateItems = new Runnable(){
         @Override
         public void run(){
@@ -64,6 +78,7 @@ public class MainActivity extends ActionBarActivity  {
         resultListView = (ListView) findViewById(R.id.resultListView);
         result = new Result();
         cse = new CSEService(getBaseContext());
+        upcAS = new UPCAPIService(getBaseContext());
         txtResult = (EditText) findViewById(R.id.txtSearch);
         txtResult.setText("");
         btnLoadMore = (Button) findViewById(R.id.btnLoadMore);
@@ -96,18 +111,35 @@ public class MainActivity extends ActionBarActivity  {
         IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
         if (scanningResult != null) {
-            String scanContent = scanningResult.getContents();
-            String scanFormat = scanningResult.getFormatName();
-            txtResult.setText(scanContent);
+            final String scanContent = scanningResult.getContents();
+            final  String scanFormat = scanningResult.getFormatName();
+            upc = new UPC();
+            upc.setUpc( scanContent);
+
+            Thread tUPC = new Thread(){
+                public void run(){
+                    try {
+                        upc = searchUPC(upc.getUpc());
+                        handler.post(updateUPCKeywordItem);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+
+            tUPC.start();
         }
 
          else  if(resultCode == RESULT_OK) {
             ArrayList<String> textMatchList = intent
                     .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (!textMatchList.isEmpty()) {
+               // upc.setUpc( textMatchList.get(0));
                 txtResult.setText( textMatchList.get(0));
             }
         }
+
+
     }
 
 
@@ -115,6 +147,9 @@ public class MainActivity extends ActionBarActivity  {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        this.menuMain = menu;
+        menuItemSortPrice = menu.findItem(R.id.action_sort_by_price);
+        menuItemSortName = menu.findItem(R.id.action_sort_by_name);
         return true;
     }
 
@@ -127,6 +162,7 @@ public class MainActivity extends ActionBarActivity  {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_scan) {
+            upc = new UPC();
             IntentIntegrator scanIntegrator = new IntentIntegrator(this);
             scanIntegrator.initiateScan();
             return true;
@@ -161,17 +197,41 @@ public class MainActivity extends ActionBarActivity  {
             resultListView.setAdapter(customAdapter);
             return true;
         }
-        else if (id == R.id.action_my_favorites){
+        /*else if (id == R.id.action_my_favorites){
 
+            return true;
+        }*/
+        else if(id==R.id.action_settings){
+            Intent intent = new Intent(this,UserSettingsActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        if(result==null || 0 == result.getItems().size())
+            menuItemSortPrice.setVisible(false);
+            menuItemSortName.setVisible(false);
+        return true;
+    }
+
+    protected UPC searchUPC(String keyword){
+        UPC upc = new UPC();
+        try {
+            upc = upcAS.Search(keyword);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return  upc;
+    }
+
     protected Result searchResult(String keyword){
         Result newResult = new Result();
         try {
-            newResult = cse.Search(keyword,getStartIdx());
+            newResult = cse.Search(keyword,getStartIdx(),getPrefence());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -179,13 +239,44 @@ public class MainActivity extends ActionBarActivity  {
         return  newResult;
     }
 
+    public String getPrefence(){
+        boolean ret=false;
+        String CountryCodes ="";
+        SharedPreferences appPrefs =
+                getSharedPreferences("appPreferences", MODE_PRIVATE);
+        try {
+            CountryCodes = appPrefs.getBoolean("countryCA", ret) ? "countryCA" : "";
+            if (appPrefs.getBoolean("countryUS", ret)){
+                if (!CountryCodes.equalsIgnoreCase("") ){
+                    CountryCodes += "|";
+                }
+                CountryCodes += "countryUS";
+            }
+        }
+        catch (ClassCastException e){
+            CountryCodes = "countryCA";
+        }
+        if (CountryCodes==""){CountryCodes ="countryCA"; }
+        return CountryCodes;
+    }
+
+    protected void updateUPCKeywordInUI() {
+        String keyword = "Code does not exist";
+        if(upc!=null){
+            keyword = upc.getValid().equalsIgnoreCase("true")? upc.getAlias(): upc.getReason();
+        }
+        txtResult.setText(keyword);
+    }
     protected void updateItemsInUI() {
         if(result==null || 0 == result.getItems().size()) {
             Toast.makeText(this, "NOT Found", Toast.LENGTH_SHORT).show();
+            menuItemSortPrice.setVisible(false);
+            menuItemSortName.setVisible(false);
         }
         else {
-
             if(result.getItems().size()>0){
+                menuItemSortPrice.setVisible(true);
+                menuItemSortName.setVisible(true);
                 for(int i=0;i<result.getItems().size();i++){
                     Product p = new Product();
                     p.setId(getStartIdx()+i);
@@ -203,7 +294,10 @@ public class MainActivity extends ActionBarActivity  {
                         p.setPricecurrency(result.getItems().get(i).getPagemap().getOffer().getPricecurrency());
                     }
                     catch ( Exception e){}
-
+                    try {
+                        p.setCountry(result.getItems().get(i).getPagemap().getOffer().getCountry());
+                    }
+                    catch ( Exception e){}
                     try {
                         String imageUri = result.getItems().get(i).getPagemap().getCSE_thumbnail().getSRC();
                         if (!imageUri.isEmpty()) p.setImageUrl(imageUri);

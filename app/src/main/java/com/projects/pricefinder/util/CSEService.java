@@ -35,7 +35,6 @@ public class CSEService {
         API_KEY =  ctx.getString(R.string.CSE_APIKey);
         baseUrl = ctx.getString(R.string.CSE_BaseURL);
         CX = ctx.getString(R.string.CSE_CX);
-
     }
 
     /**
@@ -52,18 +51,19 @@ public class CSEService {
      * @return base URL
      * @throws Exception
      */
-    public  URL bundleUrl(String keyword, int _index) throws Exception{
+    public  URL bundleUrl(String keyword, int _index,String _countryCodes) throws Exception{
         return new URL(baseUrl + "?key=" + API_KEY + "&cx=" + CX
                 + "&start="+_index
                 + "&q=" + URLEncoder.encode(keyword)
+                + "&cr="+ _countryCodes
                 + "&alt=json");
     }
 
-    public synchronized Result Search(String keyword, int _index) throws Exception {
+    public synchronized Result Search(String keyword, int _index,String _countryCodes) throws Exception {
         String responseResult = "";
 
         try {
-            URL URL =  bundleUrl(keyword.trim(),_index);
+            URL URL =  bundleUrl(keyword.trim(),_index, _countryCodes);
             HttpURLConnection conn = (HttpURLConnection) (URL).openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -118,6 +118,8 @@ public class CSEService {
             JSONArray jsonObjectArray = jsonObject.getJSONArray("items");
 
             for (int i = 0; i < jsonObjectArray.length(); i++) {
+
+                Boolean addto = false;
                 JSONObject jsonItem = (JSONObject) jsonObjectArray.get(i);
                 Item item = new Item();
                 item.setTitle(jsonItem.getString("title"));
@@ -150,14 +152,19 @@ public class CSEService {
                 //set Offer
                 try {
                     JSONArray jsonObjectArrayOffer = jsonObjectPagemap.getJSONArray("offer");
-
                     for (int j = 0; j < 1; j++) {//jsonObjectArrayOffer.length()
 
                         JSONObject jsonItemOffer = (JSONObject) jsonObjectArrayOffer.get(j);
                         Offer offer = new Offer();
-                        offer.setPrice(jsonItemOffer.getString("price"));
+                        String price = jsonItemOffer.getString("price");
+                        price = price.replace("$", "");
+                        double p = Double.parseDouble(price);
+                        if ( p > 0.00) {addto = true;}
+                        offer.setPrice(price);
                         //offer.setAvailability(jsonItemOffer.getString("availability"));
-                        offer.setPricecurrency(jsonItemOffer.getString("pricecurrency"));
+                        String ccode = jsonItemOffer.getString("pricecurrency");
+                        offer.setPricecurrency(ccode);
+                        offer.setCountry(CountryConvert(ccode));
                         pagemap.setOffer(offer);
                     }
                 }
@@ -183,12 +190,13 @@ public class CSEService {
                 }
 
                 item.setPagemap(pagemap);
-                items.add(item);
+                if(addto){items.add(item);}
             }
             result.setItems(items);
         }
         return result;
     }
+
     public static Queries deserializeQueries(String object) throws JSONException
     {
         Queries queries = new Queries();
@@ -230,5 +238,19 @@ public class CSEService {
             }
         }
         return queries;
+    }
+    private static String CountryConvert(String code){
+        String country="";
+        switch (code) {
+            case "USD":
+                country = "United States";
+                break;
+            case "CAD":
+                country = "Canada";
+                break;
+            default:
+                country = "Canada";
+        }
+        return country;
     }
 }

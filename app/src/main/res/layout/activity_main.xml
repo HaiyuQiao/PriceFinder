@@ -19,14 +19,14 @@
 
         <Button
             android:id="@+id/btnSearch"
-            android:layout_width="85dp"
+            android:layout_width="55dp"
             android:layout_height="wrap_content"
-            android:text="@string/btnSearch"
+            android:text=""
             android:onClick="onClickSearch"
             android:layout_alignBottom="@+id/txtSearch"
             android:layout_alignParentRight="true"
+            android:drawableLeft="@drawable/ic_action_search"
             android:layout_alignParentTop="true" />
-
 
     </RelativeLayout>
     <ListView

@@ -48,6 +48,10 @@
             android:name=".activities.ViewSiteActivity"
             android:label="@string/title_activity_view_site" >
         </activity>
+        <activity
+            android:name=".activities.UserSettingsActivity"
+            android:label="@string/title_activity_user_settings" >
+        </activity>
     </application>
 
 </manifest>

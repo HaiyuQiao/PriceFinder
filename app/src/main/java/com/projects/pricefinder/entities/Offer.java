@@ -12,6 +12,8 @@ public class Offer {
     private String price;
     private String pricecurrency;
     private String availability;
+    private String country;
+
 
     public Offer() {
         super();
@@ -35,5 +37,13 @@ public class Offer {
     }
     public void setAvailability(String availability) {
         this.availability = availability;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }
