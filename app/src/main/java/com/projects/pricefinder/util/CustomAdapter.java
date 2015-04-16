@@ -82,7 +82,13 @@ public class CustomAdapter extends BaseAdapter {
         try {
             Double price = item.getPrice();
             TextView itemPrice = (TextView) convertView.findViewById(R.id.textViewPrice);
-            itemPrice.setText( price.toString()+ " " + item.getPricecurrency());
+            itemPrice.setText( price.toString() );
+        }
+        catch ( Exception e){}
+
+        try {
+            TextView itemCountry = (TextView) convertView.findViewById(R.id.textViewCountry);
+            itemCountry.setText(item.getCountry() );
         }
         catch ( Exception e){}
 

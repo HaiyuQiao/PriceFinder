@@ -15,6 +15,6 @@
     <string name="action_my_favorites">My Favorites</string>
     <string name="btn_load_more">Load more...</string>
     <string name="title_activity_view_site">ViewSite</string>
-    <string name="hello_world">Hello world!</string>
-
+    <string name="UPC_APIKey">69487d969ca01b08b63c0263084486d6</string>
+    <string name="UPC_BaseURL">http://api.upcdatabase.org/json/</string>
 </resources>

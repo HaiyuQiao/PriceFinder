@@ -24,6 +24,7 @@ public class Product implements Serializable {
     private String desc;
     private Timestamp dateCreated;
     private boolean interest;
+    private String country;
 
     public Product() {
         super();
@@ -112,14 +113,12 @@ public class Product implements Serializable {
         this.interest = interest;
     }
 
-   /* @Override
-    public int compareTo(Product another) {
-        if(this.price > another.price){
-            return 1;
-        }
-        else {
-            return -1;
-        }
-    }*/
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
 }
 
